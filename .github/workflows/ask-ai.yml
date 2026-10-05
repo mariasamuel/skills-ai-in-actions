@@ -16,7 +16,8 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           prompt: |
-            Give me a programming joke.
+              Return a valid JSON object with a single field named "response".
+              The value should be a programming joke.
 
       - name: Display AI Response
         run: |
