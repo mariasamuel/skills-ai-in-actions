@@ -13,11 +13,15 @@ jobs:
     name: AI Issue Completeness
     runs-on: ubuntu-latest
     steps:
+      - name: Install Copilot CLI
+        run: npm install -g @github/copilot
+          
       - name: Analyze issue with AI
         id: ai-response
         uses: actions/ai-inference@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          provider: copilot
           max-tokens: 1000
           system-prompt: |
             You are a GitHub issue assistant. Your task is to analyze newly opened issues for completeness.
@@ -34,6 +38,9 @@ jobs:
             ---
             ${{ github.event.issue.body }}
             ---
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
       - name: Comment results on the issue
         uses: peter-evans/create-or-update-comment@v4
         with:
